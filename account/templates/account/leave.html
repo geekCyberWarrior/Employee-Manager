@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Leave Application{% endblock %}
+{% block styles %}<link href="{% static 'forms.css' %}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Employee Management</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/logout">Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <main role="main" class="inner cover">
+    {% if form.totalLeavesAvailable%}
+      <form class="form-signin" method="POST">
+        {% csrf_token %}
+      <h1 class="h3 mb-3 font-weight-normal">Leave Application</h1>
+      {% if form.errors or messages %}
+          <p>Enter Valid Details</p>
+      {% elif messages %}
+      {% endif %}
+      {% for field in form %}
+          <div class="form-group">
+            {{ field.label }}
+            {{ field }}
+          </div>
+      {% endfor %}
+
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </form>
+    {% else %}
+      <h1 class="h3 mb-3 font-weight-normal">Sorry Leave Applications not possible... Please wait until your previous applications are approved/rejected!</h1>
+    {% endif %}
+  </main>
+
+</div>
+{% endblock %}

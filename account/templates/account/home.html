@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %} {% load myfilters %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Employee Management</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="/logout">Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <main role="main" class="inner cover">
+
+    {% if messages %}
+      {% for message in messages %}  
+        <h5>{{ message }}</h5>
+      {% endfor %}
+    {% endif %}
+    <h1 class="cover-heading">You are a(n) {{ request.user|group }}</h1>
+    <p class="lead">
+      {% if request.user|has_group:'Employee' %}
+        <a href="leave/" class="btn btn-lg btn-secondary">Apply for a Leave</a>
+        <a href="view/" class="btn btn-lg btn-secondary">View Leave Applications</a>
+      {% elif request.user|has_group:'Manager' %}
+        <a href="approve/" class="btn btn-lg btn-secondary">Approve Leave Applications</a>
+      {% else %}
+        <a href="view/" class="btn btn-lg btn-secondary">View Leave Applications</a>        
+      {% endif %}
+    </p>
+  </main>
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Employee Management</p>
+    </div>
+  </footer>
+</div>
+
+{% endblock %}

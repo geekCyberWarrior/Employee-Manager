@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %} {% load myfilters %}
+
+{% block title %}Approve Applications{% endblock %}
+
+{% block content %}
+
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Employee Management</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/logout">Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <h1>Leave Applications</h1>
+
+  <div class="row row-cols-1 row-cols-md-2 mt-2">
+      {% for instance in object_list %}
+      <div class="col mb-4">
+        <div class="card h-100 text-white {{ instance.status|color }}">
+          <div class="card-body">
+            <h5 class="card-title">Employee: {{ instance.user }}</h5>
+            <p class="card-text">
+            	Start Date: {{ instance.startDate }} <br />
+            	End Date: {{ instance.endDate }}
+            </p>
+            <small class="text-white right-text">{{ instance.description }}</small>
+          <p class="card-text text-white">
+            Applied: {{ instance.appliedDetail|timesince }} ago
+            {% if instance.status == 'a' %}
+              <br /> Approved: {{ instance.approvedDetail|timesince }} ago
+            {% elif instance.status == 'r' %}
+              <br /> Rejected: {{ instance.approvedDetail|timesince }} ago
+            {% endif %}
+          </p>
+          </div>
+          <div class="card-footer">
+            Status: {{ instance.status|status }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Employee Management</p>
+    </div>
+  </footer>
+</div>
+
+{% endblock %}

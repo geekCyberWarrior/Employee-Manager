@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %} 
+
+{% block title %}Approve Applications{% endblock %}
+
+{% block content %}
+
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Employee Management</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/logout">Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  	{% if messages %}
+	  {% for message in messages %}  
+	    <h5>{{ message }}</h5>
+	  {% endfor %}
+	{% endif %}
+  {% if object_list %}
+  	<h1>Leave Applications</h1>
+  <div class="row row-cols-1 row-cols-md-2 mt-2">
+      {% for instance in object_list %}
+      <div class="col mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title text-dark">Employee: {{ instance.user }}</h5>
+            <p class="card-text text-dark">
+            	Start Date: {{ instance.startDate }} <br />
+            	End Date: {{ instance.endDate }}
+            </p>
+            <small class="text-muted text-dark right-text">{{ instance.description }}</small>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">
+              <form action="{{ instance.id }}" method="POST" style="display:inline-block">
+              	{% csrf_token %}
+              	<button class="btn btn-success" type="submit">Approve &raquo;</button>
+          	  </form>
+              
+              <form action="/reject/{{ instance.id }}" method="POST" style="display:inline-block">
+              	{% csrf_token %}
+              	<button class="btn btn-danger" type="submit">&raquo;Reject</button>
+          	  </form>
+			</small
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}<h1>No Applications...</h1>{% endif %}
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Employee Management</p>
+    </div>
+  </footer>
+</div>
+
+{% endblock %}
